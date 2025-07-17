@@ -7,6 +7,8 @@ import session from "express-session";
 import passport from "passport";
 import MongoStore from "connect-mongo";
 import "./utils/passport.config.js"
+import authRouter from './routes/auth.routes.js';
+import courseRouter from './routes/courses.routes.js';
 
 dotenv.config()
 
@@ -44,6 +46,10 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+
+app.use("/api/auth",authRouter);
+app.use("/api/course",courseRouter)
 
 
 

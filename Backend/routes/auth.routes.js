@@ -3,12 +3,12 @@ import passport from "passport";
 import { requireAuth } from "../middlewares/auth.middleware.js";
 import { getMe, logout } from "../controllers/auth.controllers.js";
 
-const router = express.Router();
+const authRouter = express.Router();
 
 // Google OAuth routes
-router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+authRouter.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
-router.get(
+authRouter.get(
   "/google/callback",
   passport.authenticate("google", { failureRedirect: "/login" }),
   (req, res) => {
@@ -18,9 +18,9 @@ router.get(
 );
 
 // Get current user
-router.get("/me",requireAuth, getMe);
+authRouter.get("/me",requireAuth, getMe);
 
 // Logout
-router.post("/logout",requireAuth,logout );
+authRouter.post("/logout",requireAuth,logout );
 
-export default router;
+export default authRouter;
