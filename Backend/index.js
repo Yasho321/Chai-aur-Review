@@ -10,6 +10,7 @@ import "./utils/passport.config.js"
 import authRouter from './routes/auth.routes.js';
 import courseRouter from './routes/courses.routes.js';
 import feedbackRouter from './routes/feedback.routes.js';
+import userRouter from './routes/user.routes.js';
 
 dotenv.config()
 
@@ -52,6 +53,7 @@ app.use(passport.session());
 app.use("/api/auth",authRouter);
 app.use("/api/course",courseRouter)
 app.use("/api/feedback",feedbackRouter)
+app.use("/api/user",userRouter)
 
 
 app.listen(port, ()=>{
