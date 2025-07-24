@@ -1,5 +1,7 @@
 import Course from "../models/course.models.js";
+import Feedback from "../models/feedback.models.js";
 import PreRegisteredUser from "../models/preRegisteredUser.models.js";
+import User from "../models/user.models.js";
 
 export const getCourses =  async (req, res) => {
   try {
@@ -88,4 +90,54 @@ export const deleteCourse = async (req, res) => {
   } catch (error) {
     return res.status(500).json({ success : false ,  message: "Server error while deleting course", error: error.message });
   }
+}
+
+export const getAllUsersOfCourse = async (req, res) => {
+  try {
+    const {courseId} = req.params;
+    const users = await Feedback.find({
+      courseId: courseId,
+    }).populate("userId");
+
+    const usersWithFeedback = users.map((user) => user.userId);
+    const feedbackUserIds = new Set(usersWithFeedback.map((u)=>u._id.toString()));
+
+    const preReg = await PreRegisteredUser.find({courseIds : courseId});
+    const preRegNotSigned = preReg.filter((pr)=>!pr.hasSignedUp).map((pr)=>({email : pr.email , createdAt : pr.createdAt}));
+
+    const signedUpEmails= preReg.filter((pr)=>pr.hasSignedUp).map((pr)=>pr.email) ; 
+
+    const signedUpUsers = await User.find({
+      email: { $in: signedUpEmails }
+    }).select("name email createdAt");
+
+    const signedUpButNoFeedback = signedUpUsers.filter((su)=>!feedbackUserIds.has(su._id.toString()));
+
+
+
+
+
+
+    return res.status(200).json({
+       success: true,
+        message: "Users of course fetched successfully", 
+        data : {
+          usersWithFeedback : usersWithFeedback ,
+          signedUpButNoFeedback : signedUpButNoFeedback ,
+          preRegisteredButNotSignedUp : preRegNotSigned ,
+        } 
+      });
+
+    
+
+    
+  } catch (error) {
+    console.log(error);
+    
+    return res.status(500).json({ success : false ,  message: "Server error while fetching users of course", error: error.message });
+    
+  }
+}
+
+export const enrollusers = async (req, res) => {
 }

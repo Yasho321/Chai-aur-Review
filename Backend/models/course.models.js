@@ -17,13 +17,7 @@ const courseSchema = new Schema({
     isActive: {
       type: Boolean,
       default: true,
-    },
-    assignedUsers: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
+    }
 
 },{timestamps : true })
 
