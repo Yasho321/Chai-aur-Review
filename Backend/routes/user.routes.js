@@ -5,7 +5,7 @@ import multer from "multer";
 
 
 import { requireAuth, requireAdmin } from "../middlewares/auth.middleware.js";
-import { getPreRegisteredUser, preRegisterUser, preRegisterUserCSV, preRegisterUserJSON } from "../controllers/user.controllers.js";
+import { deleteUser, getPreRegisteredUser, preRegisterUser, preRegisterUserCSV, preRegisterUserJSON } from "../controllers/user.controllers.js";
 
 const userRouter = express.Router();
 const upload = multer({ storage: multer.memoryStorage() });
@@ -21,5 +21,7 @@ userRouter.post("/pre-register/json", requireAuth, requireAdmin,preRegisterUserJ
 
 // ✅ 4. Get all pre-registered users
 userRouter.get("/pre-registered", requireAuth, requireAdmin, getPreRegisteredUser);
+
+userRouter.delete("/:userId", requireAuth, requireAdmin, deleteUser);
 
 export default userRouter;

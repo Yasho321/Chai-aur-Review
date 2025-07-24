@@ -2,6 +2,7 @@ import Course from "../models/course.models.js";
 import PreRegisteredUser from "../models/preRegisteredUser.models.js";
 import csv from "csv-parser";
 import { Readable } from "stream";
+import User from "../models/user.models.js";
 
 export const preRegisterUser = async (req, res) => {
   try {
@@ -131,5 +132,35 @@ export const getPreRegisteredUser = async (req, res) => {
     return res.status(200).json({success : true , message : "Pre Registered Users fetched successfully" , preRegisteredUsers : preRegistered});
   } catch (error) {
     return res.status(500).json({ success : false , message: "Server error while fetching pre registered users", error: error.message });
+  }
+}
+
+export const deleteUser = async (req, res) => {
+  try {
+    const {userId} = req.params;
+    const preRegisteredUser = await PreRegisteredUser.findById(userId);
+    if(!preRegisteredUser){
+      return res.status(404).json({success : false , message: "User not found" });
+    }
+
+    if(preRegisteredUser.hasSignedUp){
+      const user =await User.findOne({
+        email: preRegisteredUser.email
+      })
+
+      await user.deleteOne();
+
+    }
+
+    await preRegisteredUser.deleteOne();
+
+    return res.status(200).json({success : true , message: "User deleted successfully" });
+    
+    
+  } catch (error) {
+    console.log(error);
+    
+    return res.status(500).json({success : false , message: "Server error while deleting user", error: error.message });
+    
   }
 }
