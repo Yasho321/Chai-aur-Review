@@ -80,3 +80,26 @@ export const getMyFeedbackRecord = async (req, res) => {
     res.status(500).json({ success : false , message: "Server error while retrieving feedbacks record", error: error.message });
   }
 }
+
+export const deleteMyFeedback = async (req, res) => {
+  try {
+    const {feedbackId} = req.params;
+    const feedback = await Feedback.findById(feedbackId);
+    if (!feedback) {
+      return res.status(404).json({ success : false , message: "Feedback not found"
+        }); 
+      }
+    if(!feedback.userId.equals(req.user._id)) {
+      return res.status(403).json({ success : false , message: "You are not authorized to delete this feedback" });
+    }
+    await feedback.deleteOne();
+
+    return res.status(200).json({ success : true , message: "Feedback deleted successfully" });
+    
+  } catch (error) {
+    console.error("Error in deleting feedback:", error);
+    return res.status(500).json({ success : false , message: "Server error while deleting feedback", error: error.message });
+    
+  }
+}
+

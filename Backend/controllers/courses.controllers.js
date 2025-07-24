@@ -102,6 +102,7 @@ export const getAllUsersOfCourse = async (req, res) => {
     const usersWithFeedback = users.map((user) => user.userId);
     const feedbackUserIds = new Set(usersWithFeedback.map((u)=>u._id.toString()));
 
+
     const preReg = await PreRegisteredUser.find({courseIds : courseId});
     const preRegNotSigned = preReg.filter((pr)=>!pr.hasSignedUp).map((pr)=>({email : pr.email , createdAt : pr.createdAt}));
 
@@ -122,7 +123,7 @@ export const getAllUsersOfCourse = async (req, res) => {
        success: true,
         message: "Users of course fetched successfully", 
         data : {
-          usersWithFeedback : usersWithFeedback ,
+          usersWithFeedback : users ,
           signedUpButNoFeedback : signedUpButNoFeedback ,
           preRegisteredButNotSignedUp : preRegNotSigned ,
         } 
