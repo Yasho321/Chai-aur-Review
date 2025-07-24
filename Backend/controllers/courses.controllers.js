@@ -140,4 +140,34 @@ export const getAllUsersOfCourse = async (req, res) => {
 }
 
 export const enrollusers = async (req, res) => {
+  try {
+    const {courseId} = req.params;
+    const {emails} = req.body;
+    if(!Array.isArray(emails)){
+      return res.status(400).json({success : false , message : "Invalid email list" , error : "Emails must be an array" });
+    }
+    const emailsArray = emails.map((email)=>email.trim().toLowerCase());
+    const result = await PreRegisteredUser.updateMany({
+      email: { $in: emailsArray },
+    },{
+       $addToSet: { courseIds: courseId } 
+    })
+
+    return res.status(200).json({
+      success: true,
+      message: "Users enrolled successfully",
+      data: {
+        result : result,
+        usersAdded : result.modifiedCount 
+
+      },
+      });
+
+    
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ success : false ,  message: "Server error while enrolling users", error: error.message });
+    
+  }
+
 }
