@@ -21,6 +21,16 @@ passport.use(
           return done(null, user);
         }
 
+        if(email == (process.env.ADMIN_EMAIL)){
+              const newUser = await User.create({
+                email,
+                name: profile.displayName,
+                googleId: profile.id,
+                role: "admin",
+              });
+              return done(null, newUser);
+        }
+
         // Check if user is pre-registered
         const preRegistered = await PreRegisteredUser.findOne({ email });
 
@@ -33,7 +43,7 @@ passport.use(
           email,
           name: profile.displayName,
           googleId: profile.id,
-          role: email === process.env.ADMIN_EMAIL ? "admin" : "user",
+          role: "user",
         });
 
         
