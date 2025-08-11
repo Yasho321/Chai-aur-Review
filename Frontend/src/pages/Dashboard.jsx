@@ -9,8 +9,11 @@ import {
   BookOpen, 
   MessageSquare, 
   Users, 
-  Star
+  Star,Sun, User, CheckCircle, Clock 
 } from "lucide-react";
+import { Button } from "@/components/ui/button"
+
+
 
 export default function Dashboard() {
   const { authUser } = useAuthStore();
@@ -30,21 +33,50 @@ export default function Dashboard() {
 
   if (!authUser) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-16 h-16 bg-gray-600 rounded-lg flex items-center justify-center mx-auto mb-4">
-            <span className="text-primary-foreground font-bold text-2xl">📝</span>
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
+      {/* Header */}
+      <header className="flex items-center justify-between p-6">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center">
+            <span className="text-white font-bold text-sm">⭐</span>
           </div>
-          <h1 className="text-3xl font-bold text-foreground mb-4">Welcome to Chai aur Review</h1>
-          <p className="text-muted-foreground mb-8"></p>
-          <button
-            onClick={() => window.location.href = 'http://localhost:8080/api/auth/google'}
-            className="bg-primary text-primary-foreground px-6 py-3 rounded-lg hover:bg-primary/90 transition-colors"
-          >
-            Get Started with Google
-          </button>
+          <span className="text-xl font-bold">Chai aur Review</span>
+        </div>
+        
+      </header>
+
+      {/* Main Content - Single Centered Section */}
+      <div className="container mx-auto px-6 py-12">
+        <div className="text-center space-y-12">
+          {/* Hero Content */}
+          <div className="space-y-8 max-w-4xl mx-auto">
+            <div className="space-y-6">
+              <h1 className="text-5xl lg:text-7xl font-bold leading-tight">
+                Give <span className="text-orange-500">Reviews</span>. <br />
+                Build Trust for the Chai <br />
+                in the World.
+              </h1>
+              <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+                Gathering authentic reviews for our courses , to acknowledge the value we provide and the growth we bring to your lives. 
+              </p>
+            </div>
+
+            <div className="flex gap-4 justify-center">
+              <Button
+                onClick={() => (window.location.href = "http://localhost:8080/api/auth/google")}
+                className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 text-lg rounded-lg"
+              >
+                Give Reviews
+              </Button>
+              
+            </div>
+          </div>
+
+          
+          
         </div>
       </div>
+    </div>
     );
   }
 
