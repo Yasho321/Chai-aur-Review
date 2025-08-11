@@ -32,11 +32,11 @@ export default function Dashboard() {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
-          <div className="w-16 h-16 bg-primary rounded-lg flex items-center justify-center mx-auto mb-4">
-            <span className="text-primary-foreground font-bold text-2xl">🔥</span>
+          <div className="w-16 h-16 bg-gray-600 rounded-lg flex items-center justify-center mx-auto mb-4">
+            <span className="text-primary-foreground font-bold text-2xl">📝</span>
           </div>
-          <h1 className="text-3xl font-bold text-foreground mb-4">Welcome to MasterJi</h1>
-          <p className="text-muted-foreground mb-8">Show your Work. Build for the Real World.</p>
+          <h1 className="text-3xl font-bold text-foreground mb-4">Welcome to Chai aur Review</h1>
+          <p className="text-muted-foreground mb-8"></p>
           <button
             onClick={() => window.location.href = 'http://localhost:8080/api/auth/google'}
             className="bg-primary text-primary-foreground px-6 py-3 rounded-lg hover:bg-primary/90 transition-colors"
@@ -53,7 +53,7 @@ export default function Dashboard() {
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
-          <p className="text-muted-foreground">Overview of your progress and upcoming deadlines.</p>
+          <p className="text-muted-foreground">Overview of your feedbacks and courses.</p>
         </div>
 
         {/* Stats Grid */}
@@ -65,12 +65,7 @@ export default function Dashboard() {
             icon={BookOpen}
           />
           
-          <StatCard
-            title="User Reviews"
-            value="12"
-            subtitle="5 Completed • 7 Pending"
-            icon={Star}
-          />
+          
           
           <StatCard
             title="Feedback"

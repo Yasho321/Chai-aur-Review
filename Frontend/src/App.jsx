@@ -12,11 +12,12 @@ import Feedback from "./pages/Feedback.jsx";
 import Users from "./pages/Users.jsx";
 import UserReviews from "./pages/UserReviews.jsx";
 import NotFound from "./pages/NotFound.jsx";
+import { Navigate } from "react-router-dom";
 
 const queryClient = new QueryClient();
 
 function AppContent() {
-  const { checkAuth } = useAuthStore();
+  const { checkAuth , isLoggedOut } = useAuthStore();
 
   useEffect(() => {
     checkAuth();
@@ -27,12 +28,12 @@ function AppContent() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Dashboard />} />
-          <Route path="/courses" element={<Courses />} />
-          <Route path="/user-reviews" element={<UserReviews />} />
-          <Route path="/feedback" element={<Feedback />} />
-          <Route path="/users" element={<Users />} />
+          <Route path="/courses" element={!isLoggedOut ? <Courses /> : <Navigate to="/" />} />
+         
+          <Route path="/feedback" element={!isLoggedOut ? <Feedback /> : <Navigate to="/" />} />
+          <Route path="/users" element={!isLoggedOut ? <Users /> : <Navigate to="/" />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
+          <Route path="*" element={!isLoggedOut ? <NotFound /> : <Navigate to="/" />} />
         </Routes>
       </BrowserRouter>
       <HotToast 

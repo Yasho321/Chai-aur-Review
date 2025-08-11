@@ -89,7 +89,7 @@ export default function Courses() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold text-foreground">Courses</h1>
-            <p className="text-muted-foreground">Manage your courses and track progress.</p>
+            <p className="text-muted-foreground">Courses you are enrolled in.</p>
           </div>
           
           {authUser?.role === 'admin' && (

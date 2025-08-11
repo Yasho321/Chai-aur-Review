@@ -98,13 +98,13 @@ export default function Feedback() {
 
           <div className="flex gap-4">
             {authUser?.role === 'admin' && (
-              <Select value={selectedCourse} onValueChange={setSelectedCourse}>
-                <SelectTrigger className="w-48">
+              <Select value={selectedCourse} onValueChange={setSelectedCourse} >
+                <SelectTrigger className="w-48 text-white">
                   <SelectValue placeholder="Select course" />
                 </SelectTrigger>
                 <SelectContent>
                   {courses.map((course) => (
-                    <SelectItem key={course._id} value={course._id}>
+                    <SelectItem key={course._id} value={course._id} >
                       {course.title}
                     </SelectItem>
                   ))}

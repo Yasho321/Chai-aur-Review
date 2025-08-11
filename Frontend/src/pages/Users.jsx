@@ -122,7 +122,7 @@ export default function Users() {
             {/* Single User Registration */}
             <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
               <DialogTrigger asChild>
-                <Button variant="outline" className="gap-2">
+                <Button variant="outline" className="gap-2 text-white hover:text-gray-200">
                   <Plus className="h-4 w-4" />
                   Add User
                 </Button>
@@ -170,7 +170,7 @@ export default function Users() {
             {/* CSV Upload */}
             <Dialog open={isCSVOpen} onOpenChange={setIsCSVOpen}>
               <DialogTrigger asChild>
-                <Button variant="outline" className="gap-2">
+                <Button variant="outline" className="gap-2 text-white hover:text-gray-200">
                   <Upload className="h-4 w-4" />
                   CSV Upload
                 </Button>
@@ -204,7 +204,7 @@ export default function Users() {
             {/* JSON Upload */}
             <Dialog open={isJSONOpen} onOpenChange={setIsJSONOpen}>
               <DialogTrigger asChild>
-                <Button variant="outline" className="gap-2">
+                <Button variant="outline" className="gap-2 text-white hover:text-gray-200">
                   <FileText className="h-4 w-4" />
                   JSON Upload
                 </Button>

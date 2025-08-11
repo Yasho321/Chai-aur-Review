@@ -15,7 +15,7 @@ import {
 const navigation = [
   { name: 'Dashboard', href: '/', icon: Home },
   { name: 'Courses', href: '/courses', icon: BookOpen },
-  { name: 'User Reviews', href: '/user-reviews', icon: Star },
+
   { name: 'Feedback', href: '/feedback', icon: MessageSquare },
   { name: 'Users', href: '/users', icon: Users, adminOnly: true },
 ];
@@ -34,10 +34,10 @@ export function Sidebar({ className }) {
       <div className="space-y-4 py-4">
         <div className="px-3 py-2">
           <div className="flex items-center gap-2 mb-8">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-lg">🔥</span>
+            <div className="w-8 h-8 bg-gray-600 rounded-lg flex items-center justify-center">
+              <span className="text-primary-foreground font-bold text-lg">📝</span>
             </div>
-            <h2 className="text-xl font-bold text-foreground">MasterJi</h2>
+            <h2 className="text-xl font-bold text-foreground">Chai Aur Review</h2>
           </div>
           
           <div className="space-y-1">
