@@ -99,12 +99,7 @@ export default function Dashboard() {
           
           
           
-          {authUser.role === 'admin' ? (<StatCard
-            title="Feedback"
-            value={myFeedbacks.length}
-            subtitle="Submissions"
-            icon={MessageSquare}
-          />) : (<StatCard
+          {authUser.role !== 'admin' && (<StatCard
             title="Feedback"
             value={myFeedbacks.length}
             subtitle="Submissions"
