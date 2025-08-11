@@ -10,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useAuthStore } from "@/stores/authStore";
 import { useUserStore } from "@/stores/userStore";
 import { useCourseStore } from "@/stores/courseStore";
-import { Plus, Trash2, Upload, FileText, Users as UsersIcon } from "lucide-react";
+import { Plus, Trash2, Upload, FileText, Users as UsersIcon , UserPlus} from "lucide-react";
 
 export default function Users() {
   const { authUser } = useAuthStore();
@@ -25,7 +25,7 @@ export default function Users() {
     getPreRegisteredUsers,
     deleteUser 
   } = useUserStore();
-  const { courses, getCourses } = useCourseStore();
+  const { courses, getCourses , enrollUsers } = useCourseStore();
 
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isCSVOpen, setIsCSVOpen] = useState(false);
@@ -36,6 +36,9 @@ export default function Users() {
   });
   const [csvFile, setCSVFile] = useState(null);
   const [jsonData, setJsonData] = useState('');
+  const [isEnrollOpen, setIsEnrollOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedCourseId, setSelectedCourseId] = useState('');
 
   useEffect(() => {
     if (authUser?.role === 'admin') {
@@ -97,6 +100,31 @@ export default function Users() {
       ? formData.courseIds.filter(id => id !== courseId)
       : [...formData.courseIds, courseId];
     setFormData({ ...formData, courseIds: updatedCourses });
+  };
+  const handleEnrollUser = async (e) => {
+    e.preventDefault();
+    console.log('1')
+    
+    if (!selectedUser || !selectedCourseId) return;
+    console.log('2')
+
+    try {
+      await enrollUsers(selectedCourseId, [selectedUser.email]);
+      console.log('3')
+      setIsEnrollOpen(false);
+      setSelectedUser(null);
+      setSelectedCourseId('');
+      // Refresh the users list
+      await getPreRegisteredUsers();
+      console.log('4')
+    } catch (error) {
+      console.error('Enroll error:', error);
+    }
+  };
+
+  const openEnrollDialog = (user) => {
+    setSelectedUser(user);
+    setIsEnrollOpen(true);
   };
 
   if (authUser?.role !== 'admin') {
@@ -281,6 +309,16 @@ export default function Users() {
                     }`}>
                       {user.hasSignedUp ? 'Signed Up' : 'Pending'}
                     </span>
+                     <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => openEnrollDialog(user)}
+                      className="gap-1"
+                    >
+                      <UserPlus className="h-4 w-4" />
+                      Enroll
+                    </Button>
+                    
                     
                     <Button
                       variant="ghost"
@@ -296,6 +334,43 @@ export default function Users() {
             </Card>
           ))}
         </div>
+        <Dialog open={isEnrollOpen} onOpenChange={setIsEnrollOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Enroll User in Course</DialogTitle>
+            </DialogHeader>
+            <form onSubmit={handleEnrollUser} className="space-y-4">
+              <div>
+                <Label>User Email</Label>
+                <Input
+                  value={selectedUser?.email || ''}
+                  disabled
+                  className="bg-muted"
+                />
+              </div>
+              
+              <div>
+                <Label htmlFor="course">Select Course</Label>
+                <Select value={selectedCourseId} onValueChange={setSelectedCourseId}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Choose a course" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {courses.map((course) => (
+                      <SelectItem key={course._id} value={course._id}>
+                        {course.title}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <Button type="submit" disabled={!selectedCourseId} className="w-full">
+                Enroll User
+              </Button>
+            </form>
+          </DialogContent>
+        </Dialog>
 
         {preRegisteredUsers.length === 0 && !isLoading && (
           <div className="text-center py-12">
