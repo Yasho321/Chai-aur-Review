@@ -11,6 +11,7 @@ import Courses from "./pages/Courses.jsx";
 import Feedback from "./pages/Feedback.jsx";
 import Users from "./pages/Users.jsx";
 import UserReviews from "./pages/UserReviews.jsx";
+import CourseDetails from "./pages/CourseDetails";
 import NotFound from "./pages/NotFound.jsx";
 import { Navigate } from "react-router-dom";
 
@@ -29,7 +30,7 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/courses" element={!isLoggedOut ? <Courses /> : <Navigate to="/" />} />
-         
+          <Route path="/courses/:courseId" element={!isLoggedOut ? <CourseDetails /> : <Navigate to="/" />} />
           <Route path="/feedback" element={!isLoggedOut ? <Feedback /> : <Navigate to="/" />} />
           <Route path="/users" element={!isLoggedOut ? <Users /> : <Navigate to="/" />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
@@ -41,7 +42,7 @@ function AppContent() {
         toastOptions={{
           style: {
             background: 'hsl(var(--card))',
-            color: 'hsl(var(--card-foreground))',
+            color: 'white',
             border: '1px solid hsl(var(--border))',
           },
         }}

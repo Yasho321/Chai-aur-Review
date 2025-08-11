@@ -3,6 +3,7 @@ import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -11,6 +12,7 @@ import { useCourseStore } from "@/stores/courseStore";
 import { Plus, Edit2, Trash2, Users } from "lucide-react";
 
 export default function Courses() {
+  const navigate = useNavigate();
   const { authUser } = useAuthStore();
   const { 
     courses, 
@@ -73,14 +75,8 @@ export default function Courses() {
     setIsEditOpen(true);
   };
 
-  const handleViewUsers = async (courseId) => {
-    try {
-      const users = await getCourseUsers(courseId);
-      console.log('Course users:', users);
-      // You can implement a modal to show users here
-    } catch (error) {
-      console.error('Error fetching users:', error);
-    }
+  const handleViewUsers = (courseId) => {
+    navigate(`/courses/${courseId}`);
   };
 
   return (
@@ -135,38 +131,54 @@ export default function Courses() {
         {/* Courses Grid */}
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {courses.map((course) => (
-            <Card key={course._id} className="bg-card border-border shadow-card hover:shadow-lg transition-shadow">
+            <Card 
+              key={course._id} 
+              className="bg-card border-border shadow-card hover:shadow-lg transition-shadow cursor-pointer"
+              onClick={() => authUser?.role === 'admin' ? handleViewUsers(course._id) : null}
+            >
               <CardHeader>
                 <CardTitle className="text-foreground">{course.title}</CardTitle>
+                {
+                  authUser?.role === 'admin' && (<p className="text-sm text-muted-foreground">
+                  {course._id }
+                </p>)
+                }
+                
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground mb-4">{course.description}</p>
-                
+
                 <div className="flex items-center justify-between">
                   <span className="text-xs bg-primary text-primary-foreground px-2 py-1 rounded">
                     {course.isActive ? 'Active' : 'Inactive'}
                   </span>
                   
                   {authUser?.role === 'admin' && (
-                    <div className="flex gap-2">
+                    <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => handleViewUsers(course._id)}
+                        onClick={(e) => {e.stopPropagation() ; handleViewUsers(course._id)}
+                        }
+                        
                       >
                         <Users className="h-4 w-4" />
                       </Button>
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => openEditDialog(course)}
+                        onClick={(e) => {e.stopPropagation() ; openEditDialog(course)}
+                        }
+                        
                       >
                         <Edit2 className="h-4 w-4" />
                       </Button>
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => handleDelete(course._id)}
+                        onClick={(e) => {e.stopPropagation() ; handleDelete(course._id)}
+                        }
+                        
                         disabled={isDeleting}
                       >
                         <Trash2 className="h-4 w-4" />
