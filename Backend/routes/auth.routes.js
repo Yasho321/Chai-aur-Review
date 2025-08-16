@@ -13,6 +13,8 @@ authRouter.get(
   passport.authenticate("google", { failureRedirect: "/login" }),
   (req, res) => {
     // Successful authentication
+    console.log("OAuth callback - Session ID:", req.sessionID)
+  console.log(" OAuth callback - User:", req.user?.email)
     res.redirect(process.env.FRONTEND_URL || "http://localhost:3000");
   }
 );
