@@ -18,14 +18,21 @@ export const getMe =  (req, res) => {
 }
 
 export const logout =  (req, res) => {
-  req.logout((err) => {
-    if (err) {
-      return res.status(500).json({
-        success: false,
-         message: "Logout failed" });
+  try {
+        
+        res.clearCookie("token");
+        
+        return res.status(200).json({
+            success : true ,
+            message : "Logged out successfully"
+        })
+        
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success : false ,
+            message : "Internal server error while logging out"
+        })
+        
     }
-    return res.json({
-        success: true,
-         message: "Logged out successfully" });
-  });
 }

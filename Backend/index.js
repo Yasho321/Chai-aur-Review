@@ -18,11 +18,16 @@ const app = express();
 
 const port= process.env.PORT || 8080;
 
+
+
+
 app.use(cors({
     origin: [ process.env.FRONTEND_URL , "http://localhost:5173"],
-    credentials: true,
-
-
+     credentials: true,               
+     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+       allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+    exposedHeaders: ["Set-Cookie"],
+    optionsSuccessStatus: 200,
 }))
 app.use(cookieParser())
 app.use(express.json());
@@ -30,26 +35,10 @@ app.use(express.urlencoded({ extended: true }));
 
 db();
 
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET || "default_secret",
-    resave: false,
-    saveUninitialized: false,
-    store: MongoStore.create({
-      mongoUrl: process.env.MONGODB_URI,
-      collectionName: "sessions", 
-    }),
-    cookie: {
-      httpOnly : true , 
-      maxAge: 1000 * 60 * 60 * 24, // 1 day
-      sameSite: "None",
-      secure: true,
-    },
-  })
-);
+
 
 app.use(passport.initialize());
-app.use(passport.session());
+
 
 
 app.use("/api/auth",authRouter);

@@ -29,6 +29,7 @@ export const useAuthStore = create((set) => ({
   logout: async () => {
     try {
       set({ isCheckingAuth: true });
+      localStorage.removeItem("authToken");
       await axiosInstance.post('/auth/logout');
       set({ 
         authUser: null,
@@ -45,6 +46,7 @@ export const useAuthStore = create((set) => ({
 
   // Google OAuth login will redirect to Google
   loginWithGoogle: () => {
-    window.location.href = 'https://chai-aur-review.onrender.com/api/auth/google';
+    window.location.href = 'http://localhost:8080/api/auth/google';
+
   }
 }));

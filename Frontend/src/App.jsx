@@ -14,6 +14,7 @@ import UserReviews from "./pages/UserReviews.jsx";
 import CourseDetails from "./pages/CourseDetails";
 import NotFound from "./pages/NotFound.jsx";
 import { Navigate } from "react-router-dom";
+import AuthSuccess from "./pages/AuthSuccess";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,7 @@ function AppContent() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Dashboard />} />
+         <Route path="/auth/success" element={<AuthSuccess />} />
           <Route path="/courses" element={!isLoggedOut ? <Courses /> : <Navigate to="/" />} />
           <Route path="/courses/:courseId" element={!isLoggedOut ? <CourseDetails /> : <Navigate to="/" />} />
           <Route path="/feedback" element={!isLoggedOut ? <Feedback /> : <Navigate to="/" />} />

@@ -8,22 +8,11 @@ export const axiosInstance = axios.create({
   },
 });
 
-// Request interceptor
-axiosInstance.interceptors.request.use(
-  (config) => {
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
+axiosInstance.interceptors.request.use(config => {
+  // Only set header if cookies not working
+  const storedToken = localStorage.getItem("authToken");
+  if (storedToken) {
+    config.headers.Authorization = `Bearer ${storedToken}`;
   }
-);
-
-// Response interceptor
-axiosInstance.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
+  return config;
+});

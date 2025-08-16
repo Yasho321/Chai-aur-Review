@@ -16,10 +16,14 @@ import { Button } from "@/components/ui/button"
 
 
 export default function Dashboard() {
-  const { authUser } = useAuthStore();
+  const { authUser ,loginWithGoogle } = useAuthStore();
   const { courses, getCourses } = useCourseStore();
   const { myFeedbacks, getMyFeedback } = useFeedbackStore();
   const { preRegisteredUsers, getPreRegisteredUsers } = useUserStore();
+
+  const handleLogin = () =>{
+    loginWithGoogle();
+  }
 
   useEffect(() => {
     if (authUser) {
@@ -31,6 +35,7 @@ export default function Dashboard() {
     }
   }, [authUser, getCourses, getMyFeedback, getPreRegisteredUsers]);
 
+ 
   if (!authUser) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
@@ -63,7 +68,7 @@ export default function Dashboard() {
 
             <div className="flex gap-4 justify-center">
               <Button
-                onClick={() => (window.location.href = "https://chai-aur-review.onrender.com/api/auth/google")}
+                onClick= {handleLogin}
                 className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 text-lg rounded-lg"
               >
                 Give Reviews
