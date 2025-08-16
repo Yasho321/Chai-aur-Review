@@ -29,8 +29,9 @@ export const useAuthStore = create((set) => ({
   logout: async () => {
     try {
       set({ isCheckingAuth: true });
-      localStorage.removeItem("authToken");
+      
       await axiosInstance.post('/auth/logout');
+      localStorage.removeItem("authToken");
       set({ 
         authUser: null,
         isLoggedOut: true 
