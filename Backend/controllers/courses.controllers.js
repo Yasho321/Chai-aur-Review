@@ -85,6 +85,12 @@ export const deleteCourse = async (req, res) => {
     if (!course) {
       return res.status(404).json({ success: false, message: "Course not found" });
     }
+    await PreRegisteredUser.updateMany(
+      { courseIds: course._id },
+      { $pull: { courseIds: course._id } }
+     
+    );
+
 
     return res.status(200).json({ success: true, message: "Course deleted successfully" });
   } catch (error) {
