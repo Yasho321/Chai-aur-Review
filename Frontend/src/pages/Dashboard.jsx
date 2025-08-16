@@ -9,14 +9,15 @@ import {
   BookOpen, 
   MessageSquare, 
   Users, 
-  Star,Sun, User, CheckCircle, Clock 
+  Star,Sun, User, CheckCircle, Clock, 
+  Loader2
 } from "lucide-react";
 import { Button } from "@/components/ui/button"
 
 
 
 export default function Dashboard() {
-  const { authUser ,loginWithGoogle } = useAuthStore();
+  const { authUser ,loginWithGoogle , isLoggedOut} = useAuthStore();
   const { courses, getCourses } = useCourseStore();
   const { myFeedbacks, getMyFeedback } = useFeedbackStore();
   const { preRegisteredUsers, getPreRegisteredUsers } = useUserStore();
@@ -36,7 +37,7 @@ export default function Dashboard() {
   }, [authUser, getCourses, getMyFeedback, getPreRegisteredUsers]);
 
  
-  if (!authUser) {
+  if (isLoggedOut) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
       {/* Header */}
@@ -83,6 +84,16 @@ export default function Dashboard() {
       </div>
     </div>
     );
+  }
+
+  if(!isLoggedOut && !authUser){
+    return (
+      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
+      <div className="flex justify-center">
+        <Loader2 className="w-12 h-12 text-gray-400 animate-spin" />
+      </div>
+    </div>
+    )
   }
 
   return (
