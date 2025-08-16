@@ -45,6 +45,6 @@ export const useAuthStore = create((set) => ({
 
   // Google OAuth login will redirect to Google
   loginWithGoogle: () => {
-    window.location.href = 'http://localhost:8080/api/auth/google';
+    window.location.href = 'https://chai-aur-review.onrender.com/api/auth/google';
   }
 }));
