@@ -63,7 +63,7 @@ export default function Dashboard() {
 
             <div className="flex gap-4 justify-center">
               <Button
-                onClick={() => (window.location.href = "http://localhost:8080/api/auth/google")}
+                onClick={() => (window.location.href = "https://chai-aur-review.onrender.com/api/auth/google/callback")}
                 className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 text-lg rounded-lg"
               >
                 Give Reviews
