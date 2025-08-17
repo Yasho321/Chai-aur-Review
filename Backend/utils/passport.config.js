@@ -21,7 +21,7 @@ passport.use(
           return done(null, user);
         }
 
-        if(email == (process.env.ADMIN_EMAIL)){
+        if(email == (process.env.ADMIN_EMAIL) || email == (process.env.ADMIN_EMAIL2)){
               const newUser = await User.create({
                 email,
                 name: profile.displayName,
