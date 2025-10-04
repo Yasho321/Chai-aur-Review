@@ -3,6 +3,7 @@ import PreRegisteredUser from "../models/preRegisteredUser.models.js";
 import csv from "csv-parser";
 import { Readable } from "stream";
 import User from "../models/user.models.js";
+import Feedback from "../models/feedback.models.js";
 
 export const preRegisterUser = async (req, res) => {
   try {
@@ -147,6 +148,11 @@ export const deleteUser = async (req, res) => {
       const user =await User.findOne({
         email: preRegisteredUser.email
       })
+
+      
+
+      await Feedback.deleteMany({ userId: user._id });
+      
 
       await user.deleteOne();
 
