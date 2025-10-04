@@ -89,7 +89,7 @@ export const deleteMyFeedback = async (req, res) => {
       return res.status(404).json({ success : false , message: "Feedback not found"
         }); 
       }
-    if(!feedback.userId.equals(req.user._id)) {
+    if(!feedback.userId.equals(req.user._id) && req.user.role !== "admin") {
       return res.status(403).json({ success : false , message: "You are not authorized to delete this feedback" });
     }
     await feedback.deleteOne();
