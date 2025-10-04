@@ -90,6 +90,7 @@ export const deleteCourse = async (req, res) => {
       { $pull: { courseIds: course._id } }
      
     );
+    await Feedback.deleteMany({ courseId: course._id });
 
 
     return res.status(200).json({ success: true, message: "Course deleted successfully" });
